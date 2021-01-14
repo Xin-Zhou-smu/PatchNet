@@ -1,7 +1,9 @@
-# PatchNet
-This repository is the newest version of PatchNet code bases.
+
+
 
 # PatchNet: Hierarchical Deep Learning-Based Stable Patch Identification for the Linux Kernel [[pdf](https://arxiv.org/pdf/1911.03576.pdf)]
+
+This repository is the newest version of PatchNet code bases.
 
 ## Code Structure
  - deeplearning: contains all code files that related to the training, validation and testing of PatchNet.
