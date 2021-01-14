@@ -58,34 +58,6 @@ git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 
 
 
-
------------------------------
-## Generate Data .pkl from .out files:
-please modify the paths(input and output) and run text2dict.py to generate train.pkl and test.pkl.
-
-      $ python text2dict.py -text_path  [path of text data] -dict_path [path of the dictionary data want to store]  -print True
-   Example:
-      
-      $ python text2dict.py -text_path  'train_data.out' -dict_path 'train.pkl'  
-      $ python text2dict.py -text_path  'test_data.out' -dict_path 'test.pkl' 
-      
-please modify the paths(input and output) and run generate_dict.py to generate dict.pkl.
-
-      $ python generate_dict.py -text_path1 [path of our data1] -text_path2 [path of our data2] -dict_path [path we want to store dict.pkl]
-   Example:
-    
-      $ python generate_dict.py -text_path1 'training_data.out' -text_path2 'test_data.out' -dict_path 'dict.pkl'
-   Notes:
-   training_data.out is the "text format" patches as training dataset (used in trainig phase).
-   
-   test_data.out is the "text format" patches as test dataset (used in evaluation phase).
-   
-   The reason why we need evaluation data (test_data.out) is that if we only build a dictionary based on training dataset (training_data.out), there may be some words in test_data.out which never appear in training_data.out. In this case, the generated "dict.pkl" is not the whole vacabulary. Considering it, I put both training data and test data to generate dict.pkl. As dict.pkl is consist of only token-id pairs, using test data will not affect the evaluation phase (no test info leak to model).
-   
-   If we don't want use test data in generating dict.pkl, we can change the command into this, to only use training data:
-   
-     $ python generate_dict.py -text_path1 'training_data.out' -text_path2 'training_data.out' -dict_path 'dict.pkl'
-
 ---------------------------------
 
 All code found in this directory or any subdirectory is covered by GPLv2,
