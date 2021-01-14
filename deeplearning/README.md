@@ -70,30 +70,27 @@ It needs to change its format following instructions below:
 1.  build dictionary-form dataset from the text-form data     
      
        
-      $ python text2dict.py -text_path  [path of text data] -dict_path [path of the dictionary data want to store]  -print True
+        $ python text2dict.py -text_path  [path of text data] -dict_path [path of the dictionary data want to store]  -print True
    
-   Examples to generate train.pkl and test.pkl:
+   Examples to generate train.pkl and test.pkl (*.out files are data collected from preprocessing folder)
       
-      $ python text2dict.py -text_path  'train_data.out' -dict_path 'train.pkl'  
-      $ python text2dict.py -text_path  'test_data.out' -dict_path 'test.pkl' 
+        $ python text2dict.py -text_path  'train_data.out' -dict_path 'train.pkl'  
+        $ python text2dict.py -text_path  'test_data.out' -dict_path 'test.pkl' 
+        
+       
      
      
-2. build vocabulury dicntionary from text-form data
+2. build vocabulary dictionary from text-form data
       
        $ python generate_dict.py -text_path1 [path of our data1] -text_path2 [path of our data2] -dict_path [path we want to store dict.pkl]
-    Examples to generate dict.pkl:
+    Examples to generate dict.pkl (*.out files are data collected from preprocessing folder):
     
        $ python generate_dict.py -text_path1 'training_data.out' -text_path2 'test_data.out' -dict_path 'dict.pkl'
-   Notes:
-   training_data.out is the "text format" patches as training dataset (used in trainig phase).
+    Notes:
+    training_data.out is the "text format" training dataset and test_data.out is the "text format" testing dataset. The reason why we need testing data (test_data.out) to build vovabulury dictionary is that if we only build a dictionary based on training dataset (training_data.out), there may be some words in test_data.out which never appear in training_data.out. In this case, the generated "dict.pkl" is not the whole vacabulary. 
+    If you don't want use test data in generating the vocabulary file dict.pkl, we can change the command into this, to only use training data:
    
-   test_data.out is the "text format" patches as test dataset (used in evaluation phase).
-   
-   The reason why we need evaluation data (test_data.out) is that if we only build a dictionary based on training dataset (training_data.out), there may be some words in test_data.out which never appear in training_data.out. In this case, the generated "dict.pkl" is not the whole vacabulary. Considering it, I put both training data and test data to generate dict.pkl. As dict.pkl is consist of only token-id pairs, using test data will not affect the evaluation phase (no test info leak to model).
-   
-   If we don't want use test data in generating dict.pkl, we can change the command into this, to only use training data:
-   
-     $ python generate_dict.py -text_path1 'training_data.out' -text_path2 'training_data.out' -dict_path 'dict.pkl'
+       $ python generate_dict.py -text_path1 'training_data.out' -text_path2 'training_data.out' -dict_path 'dict.pkl'
 
 
 
