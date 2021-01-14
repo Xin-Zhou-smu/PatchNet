@@ -62,7 +62,7 @@ Step 2. To evaluate the model for bug fixing patch classification, please follow
      
 ## Train on New Dataset
 ### Collect Data
-please refer to the preprocessing folder for details on how to collect dataset
+please refer to the preprocessing folder for details on how we preprocess patches.
 ### Change the format of Dataset
 As the collected dataset from the preprocessing folder has a different format, we cannot directly use the data to train and test PatchNet.
 It needs to change its format following instructions below:
