@@ -3,6 +3,10 @@ This repository is the newest version of PatchNet code bases.
 
 # PatchNet: Hierarchical Deep Learning-Based Stable Patch Identification for the Linux Kernel [[pdf](https://arxiv.org/pdf/1911.03576.pdf)]
 
+## Code Structure
+ - deeplearning: contains all code files that related to the training, validation and testing of PatchNet.
+ - prerprocessing:  contains code files that how we collect our dataset.
+
 ## Implementation Environment
 
 Please install the neccessary libraries before running our tool:
@@ -34,10 +38,12 @@ Please following the link below to download the data and pretrained models of ou
 
 - https://drive.google.com/drive/folders/1vO4eF4tma94tsBljLMvVXdG2K4sKOC3s?usp=sharing
 
-After downloading, simply copy the data and model folders to PatchNet folder.
+After downloading, simply copy the data and model folders to deeplearning folder.
 
 
 ## Running and evalutation
+
+After getting the data, please go into the deeplearning folder to run and evaluate our tool.
       
 - To train the model for bug fixing patch classification, please follow this command: 
 
