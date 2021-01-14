@@ -60,6 +60,42 @@ Step 2. To evaluate the model for bug fixing patch classification, please follow
      
    We need to load these stored models when doing evaluation. If we load "epoch_20.pt" and do evaluation, that means we only evaluate the performance of the model "epoch_20.pt" (model saved at 20th epoch).
      
+## Train on New Dataset
+# Collect Data
+please refer to the preprocessing folder for details on how to collect dataset
+# Change the format of Dataset
+As the collected dataset from the preprocessing folder has a different format, we cannot directly use the data to train and test PatchNet.
+It needs to change its format following instructions below:
+
+   1.  build dictionary-form dataset from the text-form data     
+       please modify the paths(input and output) and run text2dict.py to generate train.pkl and test.pkl.
+       
+           $ python text2dict.py -text_path  [path of text data] -dict_path [path of the dictionary data want to store]  -print True
+   Example:
+      
+      $ python text2dict.py -text_path  'train_data.out' -dict_path 'train.pkl'  
+      $ python text2dict.py -text_path  'test_data.out' -dict_path 'test.pkl' 
+     
+     
+   2. build vocabulury dicntionary from text-form data
+      please modify the paths(input and output) and run generate_dict.py to generate dict.pkl.
+      
+          $ python generate_dict.py -text_path1 [path of our data1] -text_path2 [path of our data2] -dict_path [path we want to store dict.pkl]
+   Example:
+    
+      $ python generate_dict.py -text_path1 'training_data.out' -text_path2 'test_data.out' -dict_path 'dict.pkl'
+   Notes:
+   training_data.out is the "text format" patches as training dataset (used in trainig phase).
+   
+   test_data.out is the "text format" patches as test dataset (used in evaluation phase).
+   
+   The reason why we need evaluation data (test_data.out) is that if we only build a dictionary based on training dataset (training_data.out), there may be some words in test_data.out which never appear in training_data.out. In this case, the generated "dict.pkl" is not the whole vacabulary. Considering it, I put both training data and test data to generate dict.pkl. As dict.pkl is consist of only token-id pairs, using test data will not affect the evaluation phase (no test info leak to model).
+   
+   If we don't want use test data in generating dict.pkl, we can change the command into this, to only use training data:
+   
+     $ python generate_dict.py -text_path1 'training_data.out' -text_path2 'training_data.out' -dict_path 'dict.pkl'
+
+
 
 ## Contact
 
