@@ -58,9 +58,9 @@ Step 2. To evaluate the model for bug fixing patch classification, please follow
     
    In each "year-month-day-hour-minute-second" folder, there are many intermediate model files are named by "epoch_x.pt" (x is a number). For example, "epoch_20.pt" means the model are saved after training 20 epochs.
      
-   We need to load these stored models when doing evaluation. If we load "epocj_20.pt" and do evaluation, that means we only evaluate the performance of the model "epoch_20.pt" (model saved at 20th epoch). Usually we will do evaluation on the model with biggest epoch number (usually the more epoch we trained, the better the trained model is). For example, in PatchNet the largest epoch is 50, so we may load in the model "epoch_50.pt" and evaluate on it.
+   We need to load these stored models when doing evaluation. If we load "epoch_20.pt" and do evaluation, that means we only evaluate the performance of the model "epoch_20.pt" (model saved at 20th epoch).
      
 
 ## Contact
 
-Questions and discussion are welcome: vdthoang.2016@smu.edu.sg
+Questions and discussion are welcome: vdthoang.2016@smu.edu.sg Or xinzhou.2020@phdcs.smu.edu.sg
