@@ -67,23 +67,23 @@ please refer to the preprocessing folder for details on how to collect dataset
 As the collected dataset from the preprocessing folder has a different format, we cannot directly use the data to train and test PatchNet.
 It needs to change its format following instructions below:
 
-   1.  build dictionary-form dataset from the text-form data     
-       please modify the paths(input and output) and run text2dict.py to generate train.pkl and test.pkl.
+1.  build dictionary-form dataset from the text-form data     
+     
        
-           $ python text2dict.py -text_path  [path of text data] -dict_path [path of the dictionary data want to store]  -print True
-   Example:
+      $ python text2dict.py -text_path  [path of text data] -dict_path [path of the dictionary data want to store]  -print True
+   
+   Examples to generate train.pkl and test.pkl:
       
       $ python text2dict.py -text_path  'train_data.out' -dict_path 'train.pkl'  
       $ python text2dict.py -text_path  'test_data.out' -dict_path 'test.pkl' 
      
      
-   2. build vocabulury dicntionary from text-form data
-      please modify the paths(input and output) and run generate_dict.py to generate dict.pkl.
+2. build vocabulury dicntionary from text-form data
       
-          $ python generate_dict.py -text_path1 [path of our data1] -text_path2 [path of our data2] -dict_path [path we want to store dict.pkl]
-   Example:
+       $ python generate_dict.py -text_path1 [path of our data1] -text_path2 [path of our data2] -dict_path [path we want to store dict.pkl]
+    Examples to generate dict.pkl:
     
-      $ python generate_dict.py -text_path1 'training_data.out' -text_path2 'test_data.out' -dict_path 'dict.pkl'
+       $ python generate_dict.py -text_path1 'training_data.out' -text_path2 'test_data.out' -dict_path 'dict.pkl'
    Notes:
    training_data.out is the "text format" patches as training dataset (used in trainig phase).
    
