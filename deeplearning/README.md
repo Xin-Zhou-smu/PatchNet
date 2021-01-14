@@ -61,9 +61,9 @@ Step 2. To evaluate the model for bug fixing patch classification, please follow
    We need to load these stored models when doing evaluation. If we load "epoch_20.pt" and do evaluation, that means we only evaluate the performance of the model "epoch_20.pt" (model saved at 20th epoch).
      
 ## Train on New Dataset
-# Collect Data
+### Collect Data
 please refer to the preprocessing folder for details on how to collect dataset
-# Change the format of Dataset
+#### Change the format of Dataset
 As the collected dataset from the preprocessing folder has a different format, we cannot directly use the data to train and test PatchNet.
 It needs to change its format following instructions below:
 
