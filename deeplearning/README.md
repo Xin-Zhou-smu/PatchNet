@@ -63,7 +63,7 @@ Step 2. To evaluate the model for bug fixing patch classification, please follow
 ## Train on New Dataset
 ### Collect Data
 please refer to the preprocessing folder for details on how to collect dataset
-#### Change the format of Dataset
+### Change the format of Dataset
 As the collected dataset from the preprocessing folder has a different format, we cannot directly use the data to train and test PatchNet.
 It needs to change its format following instructions below:
 
@@ -72,7 +72,7 @@ It needs to change its format following instructions below:
        
         $ python text2dict.py -text_path  [path of text data] -dict_path [path of the dictionary data want to store]  -print True
    
-   Examples to generate train.pkl and test.pkl (*.out files are data collected from preprocessing folder)
+    Examples to generate train.pkl and test.pkl (*.out files are data collected from preprocessing folder)
       
         $ python text2dict.py -text_path  'train_data.out' -dict_path 'train.pkl'  
         $ python text2dict.py -text_path  'test_data.out' -dict_path 'test.pkl' 
@@ -91,7 +91,8 @@ It needs to change its format following instructions below:
     If you don't want use test data in generating the vocabulary file dict.pkl, we can change the command into this, to only use training data:
    
        $ python generate_dict.py -text_path1 'training_data.out' -text_path2 'training_data.out' -dict_path 'dict.pkl'
-
+### Train and Test on new dataset
+Aftering building new train.pkl, testing.pkl and dict.pkl, please follow the commands in section "Running and evalutation" and only need to replace our dataset with your own dataset.
 
 
 ## Contact
