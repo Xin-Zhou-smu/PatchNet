@@ -6,8 +6,8 @@
 This repository is the newest version of PatchNet code bases.
 
 ## Code Structure
- - deeplearning: contains all code files that related to the training, validation and testing of PatchNet.
- - prerprocessing:  contains code files that related to the collection of our dataset. Also useful if you want to use PatchNet on your own data.
+ - deeplearning:     contains all code files that related to the training, validation and testing of PatchNet.
+ - prerprocessing:   contains code files that related to the collection of our dataset. Also useful if you want to use PatchNet on your own data.
 
 ## Reproduce the Results
 
