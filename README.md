@@ -14,7 +14,7 @@ Please see the README in the deeplearning folder to see how to download the data
 ## Utilize PatchNet on New Dataset
 
 Please see the README in the preprocessing folder to follow the steps we build dataset.
-Then move the built new dataset into deeplearning folder and follow the README in the deeplearning folder to finish the training, validation and testing.
+Then move the built new dataset into deeplearning folder and follow the README in the deeplearning folder to finish the training, validation and testing of PatchNet.
 
 ## Contact
 
