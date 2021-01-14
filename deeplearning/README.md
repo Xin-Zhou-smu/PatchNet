@@ -92,7 +92,7 @@ It needs to change its format following instructions below:
    
        $ python generate_dict.py -text_path1 'training_data.out' -text_path2 'training_data.out' -dict_path 'dict.pkl'
 ### Train and Test on new dataset
-Aftering building new train.pkl, testing.pkl and dict.pkl, please follow the commands in section "Running and evalutation" and only need to replace our dataset with your own dataset.
+Aftering building new train.pkl, testing.pkl and dict.pkl, please follow the commands in section "Running and evalutation" and only need to replace the dataset with your own dataset.
 
 
 ## Contact
