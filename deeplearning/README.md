@@ -36,16 +36,18 @@ We have a number of different parameters
 
 ## Running and evalutation
 
-If you only download our dataset and want to train by yourself,  please follow the instruction below. Or if you want to directly use our pretrained model to reproduce our results, please only use command in the step2 and give the path of our pretrained model to '--load_model'.  
-      
-1. To train the model for bug fixing patch classification, please follow this command: 
+If you only download our dataset and want to train it by yourself,  please follow the instruction (step1&2) below. 
 
-      $ python main.py -train -train_data [path of our data] -dictionary_data [path of our dictionary data]
+Or if you want to directly use our pretrained model to reproduce our results, please only use command in the step2 and give the path of our pretrained model to '--load_model'.  
+      
+Step 1. To train the model for bug fixing patch classification, please follow this command: 
+
+       $ python main.py -train -train_data [path of our data] -dictionary_data [path of our dictionary data]
   For example:
        
-      $ python main.py -train -train_data 'train.pkl' -dictionary_data 'dict.pkl'
+       $ python main.py -train -train_data 'train.pkl' -dictionary_data 'dict.pkl'
      
-2. To evaluate the model for bug fixing patch classification, please follow this command:
+Step 2. To evaluate the model for bug fixing patch classification, please follow this command:
       
        $ python main.py -predict -pred_data [path of our data] -dictionary_data [path of our dictionary data] -load_model [path of our model]
   For example:     
