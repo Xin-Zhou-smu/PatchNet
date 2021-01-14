@@ -2,7 +2,7 @@
 
 ## Implementation Environment
 
-Please install the neccessary libraries before running our tool:
+Please install the necessary libraries before running our tool:
 
 - python==3.6.9
 - torch==1.2.0
@@ -13,11 +13,11 @@ Please install the neccessary libraries before running our tool:
 
 ## Data & Pretrained models:
 
-Please following the link below to download the data and pretrained models of our paper. 
+Please follow the link below to download the data and pretrained models of our paper. 
 
 - https://drive.google.com/drive/folders/1vO4eF4tma94tsBljLMvVXdG2K4sKOC3s?usp=sharing
 
-After downloading, simply copy the data and model folders to PatchNet folder. 
+After downloading, simply copy the data and model folders to deeplearning folder. 
 
 
 
@@ -34,9 +34,9 @@ We have a number of different parameters
 * --batch_size: Batch size. 
 * --num_epochs: Number of epochs. 
 
-## Running and evalutation
+## Running and evaluation
 
-If you only download our dataset and want to train it by yourself,  please follow the instruction (step1&2) below. 
+If you only download our dataset and want to train it by yourself,  please follow the instructions (step1&2) below. 
 
 Or if you want to directly use our pretrained model to reproduce the results, please only use the command in the step2 and give the path of the pretrained model to '--load_model'.  
       
@@ -54,9 +54,9 @@ Step 2. To evaluate the model for bug fixing patch classification, please follow
   
        $ python main.py -predict -pred_data 'test.pkl' -dictionary_data 'dict.pkl' -load_model './snapshot/2020-12-01_07-45-03/epoch_20.pt'
   Notes:
-    "-load_model"  parameter needs the path to the saved model. In the training phase, PatchNet will automatically save some intermediate models during the training process (when we finish a training process, we can see them), which are stroed in folder "snapshot". In the "snapshot" folder, there are folders named by "year-month-day-hour-minute-second" way, to represent the time when models are stored.
+    "-load_model"  parameter needs the path to the saved model. In the training phase, PatchNet will automatically save some intermediate models during the training process (when we finish a training process, we can see them), which are stored in folder "snapshot". In the "snapshot" folder, there are folders named by "year-month-day-hour-minute-second" way, to represent the time when models are stored.
     
-   In each "year-month-day-hour-minute-second" folder, there are many intermediate model files are named by "epoch_x.pt" (x is a number). For example, "epoch_20.pt" means the model are saved after training 20 epochs.
+   In each "year-month-day-hour-minute-second" folder, there are many intermediate model files named by "epoch_x.pt" (x is a number). For example, "epoch_20.pt" means the model is saved after training 20 epochs.
      
    We need to load these stored models when doing evaluation. If we load "epoch_20.pt" and do evaluation, that means we only evaluate the performance of the model "epoch_20.pt" (model saved at 20th epoch).
      
@@ -87,12 +87,12 @@ It needs to change its format following instructions below:
     
        $ python generate_dict.py -text_path1 'training_data.out' -text_path2 'test_data.out' -dict_path 'dict.pkl'
     Notes:
-    training_data.out is the "text format" training dataset and test_data.out is the "text format" testing dataset. The reason why we need testing data (test_data.out) to build vovabulury dictionary is that if we only build a dictionary based on training dataset (training_data.out), there may be some words in test_data.out which never appear in training_data.out. In this case, the generated "dict.pkl" is not the whole vacabulary. 
+    training_data.out is the "text format" training dataset and test_data.out is the "text format" testing dataset. The reason why we need testing data (test_data.out) to build vocabulary dictionary is that if we only build a dictionary based on training dataset (training_data.out), there may be some words in test_data.out which never appear in training_data.out. In this case, the generated "dict.pkl" is not the whole vocabulary. 
     If you don't want use test data in generating the vocabulary file dict.pkl, we can change the command into this, to only use training data:
    
        $ python generate_dict.py -text_path1 'training_data.out' -text_path2 'training_data.out' -dict_path 'dict.pkl'
 ### Train and Test on new dataset
-Aftering building new train.pkl, testing.pkl and dict.pkl, please follow the commands in section "Running and evalutation" and only need to replace the dataset with your own dataset.
+Aftering building new train.pkl, testing.pkl and dict.pkl, please follow the commands in section "Running and evaluation" and only need to replace the dataset with your own dataset.
 
 
 ## Contact
