@@ -61,7 +61,7 @@ Step 2. To evaluate the model for bug fixing patch classification, please follow
    We need to load these stored models when doing evaluation. If we load "epoch_20.pt" and do evaluation, that means we only evaluate the performance of the model "epoch_20.pt" (model saved at 20th epoch).
      
 ## Train on New Dataset
-### Collect Data
+### Preprocess Data
 please refer to the preprocessing folder for details on how we preprocess patches.
 ### Change the format of Dataset
 As the collected dataset from the preprocessing folder has a different format, we cannot directly use the data to train and test PatchNet.
@@ -92,7 +92,7 @@ It needs to change its format following instructions below:
    
        $ python generate_dict.py -text_path1 'training_data.out' -text_path2 'training_data.out' -dict_path 'dict.pkl'
 ### Train and Test on new dataset
-Aftering building new train.pkl, testing.pkl and dict.pkl, please follow the commands in section "Running and evaluation" and only need to replace the dataset with your own dataset.
+Aftering generating new train.pkl, testing.pkl and dict.pkl, please follow the commands in section "Running and evaluation" and only need to replace the dataset with your own dataset.
 
 
 ## Contact
