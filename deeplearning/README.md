@@ -69,7 +69,7 @@ Step 2. To utilize trained models to give predictions on unlabeled bug fixing pa
     
    In each "year-month-day-hour-minute-second" folder, there are many intermediate model files named by "epoch_x.pt" (x is a number). For example, "epoch_20.pt" means the model is saved after training 20 epochs.
      
-   We need to load these stored models when doing evaluation. If we load "epoch_20.pt" and do evaluation, that means we only evaluate the performance of the model "epoch_20.pt" (model saved at 20th epoch).
+   We need to load these stored models when doing prediction. If we load "epoch_20.pt" and do prediction, that means we only evaluate the performance of the model "epoch_20.pt" (model saved at 20th epoch). You can choose the recommend models of validation results in step1.
      
 ## Train on New Dataset
 ### Preprocess Data
