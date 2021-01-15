@@ -62,7 +62,7 @@ Step 2. To utilize trained models to give predictions on unlabeled bug fixing pa
   
        $ python main.py -predict -pred_data './small_data/test.pkl' -dictionary_data './small_data/dict.pkl' -load_model './snapshot/2020-12-01_07-45-03/epoch_20.pt'
        
-  After running this command, the result.txt will be stored in folder './result' and each line of result.txt is "patch id predicted_scores".
+  After running this command, the result.txt will be stored in folder './result' and each line of result.txt is "patch id [Space] predicted_scores".
   
   Notes:
     "-load_model"  parameter needs the path to the saved model. In the training phase, PatchNet will automatically save some intermediate models during the training process (when we finish a training process, we can see them), which are stored in folder "snapshot". In the "snapshot" folder, there are folders named by "year-month-day-hour-minute-second" way, to represent the time when models are stored.
