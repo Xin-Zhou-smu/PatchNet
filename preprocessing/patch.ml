@@ -59,17 +59,19 @@ let get_commits commit_file =
   let infos =
     List.map
       (function c ->
-	match Str.split (Str.regexp ": ") c with
-	  [commit;label] ->
-	    let commit = String.trim commit in
-	    let label = String.trim label in
-	    (if not (List.mem label ["true";"false"])
-	    then failwith ("bad label: "^label));
-	    (C.cmd_to_list
-	       (Printf.sprintf "cd %s; git log -n 1 %s %s %s -- \"*.[ch]\""
-		  !C.linux pretty fixed_args commit),
-	     label)
-	| _ ->  failwith "commit file lines should have the format commit: label")
+	let (commit,label) =
+	  match Str.split (Str.regexp ": ") c with
+	    [commit;label] -> (* training data *) (commit,label)
+	  | [commit] -> (* testing data *) (commit,"false")
+	  | _ ->  failwith "commit file lines should have the format commitid: label (training data) or just a commitid (testing data)" in
+	let commit = String.trim commit in
+	let label = String.trim label in
+	(if not (List.mem label ["true";"false"])
+	then failwith ("bad label: "^label));
+	(C.cmd_to_list
+	   (Printf.sprintf "cd %s; git log -n 1 %s %s %s -- \"*.[ch]\""
+	      !C.linux pretty fixed_args commit),
+	 label))
       commits in
   let res = parse_commit_data infos !C.linux in
   Printf.eprintf "Patches: %d\n" (List.length res);
