@@ -47,8 +47,13 @@ Step 1. To train the model for bug fixing patch classification, please follow th
        
        $ python main.py -train -train_data './small_data/train.pkl' -dictionary_data './small_data/dict.pkl' -train_valid_ratio 0.3
    If you want to evaluate all trained models on validation set, then you need to add two options: -valid and -train_valid_ratio.
-   -valid: choose to do validation   
+   
+   -valid: choose to do validation
+   
    -train_valid_ratio : the split ratio bewteen training data and validation data (validation data is split from train.pkl).
+        
+        $ python main.py -train -valid -train_data './small_data/train.pkl' -dictionary_data './small_data/dict.pkl' -train_valid_ratio 0.3
+ 
 Step 2. To evaluate the model for bug fixing patch classification, please follow this command:
       
        $ python main.py -predict -pred_data [path of our data] -dictionary_data [path of our dictionary data] -load_model [path of our model]
