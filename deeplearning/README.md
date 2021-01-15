@@ -45,14 +45,16 @@ Step 1. To train the model for bug fixing patch classification, please follow th
        $ python main.py -train -train_data [path of our data] -dictionary_data [path of our dictionary data]
    For example:
        
-       $ python main.py -train -train_data 'train.pkl' -dictionary_data 'dict.pkl'
-     
+       $ python main.py -train -train_data './small_data/train.pkl' -dictionary_data './small_data/dict.pkl' -train_valid_ratio 0.3
+   If you want to evaluate all trained models on validation set, then you need to add two options: -valid and -train_valid_ratio.
+   -valid: choose to do validation   
+   -train_valid_ratio : the split ratio bewteen training data and validation data (validation data is split from train.pkl).
 Step 2. To evaluate the model for bug fixing patch classification, please follow this command:
       
        $ python main.py -predict -pred_data [path of our data] -dictionary_data [path of our dictionary data] -load_model [path of our model]
    For example:     
   
-       $ python main.py -predict -pred_data 'test.pkl' -dictionary_data 'dict.pkl' -load_model './snapshot/2020-12-01_07-45-03/epoch_20.pt'
+       $ python main.py -predict -pred_data './small_data/test.pkl' -dictionary_data './small_data/dict.pkl' -load_model './snapshot/2020-12-01_07-45-03/epoch_20.pt'
   Notes:
     "-load_model"  parameter needs the path to the saved model. In the training phase, PatchNet will automatically save some intermediate models during the training process (when we finish a training process, we can see them), which are stored in folder "snapshot". In the "snapshot" folder, there are folders named by "year-month-day-hour-minute-second" way, to represent the time when models are stored.
     
