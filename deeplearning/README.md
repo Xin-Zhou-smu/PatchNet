@@ -55,13 +55,15 @@ Step 1. To train the model for bug fixing patch classification, please follow th
         $ python main.py -train -valid -train_data './small_data/train.pkl' -dictionary_data './small_data/dict.pkl' -train_valid_ratio 0.3
    The validation will show the evaluation metrics and the recommended 'best models'. Users can load the recommended models when doing prediction.
  
-Step 2. To utilize trained models to give predictions on unknown bug fixing patches:
+Step 2. To utilize trained models to give predictions on unlabeled bug fixing patches:
       
        $ python main.py -predict -pred_data [path of our data] -dictionary_data [path of our dictionary data] -load_model [path of our model]
    For example:     
   
        $ python main.py -predict -pred_data './small_data/test.pkl' -dictionary_data './small_data/dict.pkl' -load_model './snapshot/2020-12-01_07-45-03/epoch_20.pt'
+       
   After running this command, the result.txt will be stored in folder './result' and each line of result.txt is "patch id predicted_scores".
+  
   Notes:
     "-load_model"  parameter needs the path to the saved model. In the training phase, PatchNet will automatically save some intermediate models during the training process (when we finish a training process, we can see them), which are stored in folder "snapshot". In the "snapshot" folder, there are folders named by "year-month-day-hour-minute-second" way, to represent the time when models are stored.
     
