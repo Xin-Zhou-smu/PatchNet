@@ -62,8 +62,8 @@ let get_commits commit_file =
       "--pretty=format:\"%%H%%n%%an%%n%%ae%%n%%at%%n%%cn%%n%%ce%%n%%ct%%n%%s\"" in
   let fixed_args = "--numstat --diff-filter=M --no-merges" in
   let infos =
-    List.map
-      (function c ->
+    List.fold_left
+      (fun prev c ->
 	let (commit,label) =
 	  match Str.split (Str.regexp ": ") c with
 	    [commit;label] -> (* training data *) (commit,label)
@@ -75,11 +75,15 @@ let get_commits commit_file =
 	then
 	  failwith
 	    (Printf.sprintf "bad label: %s, expected true or false" label));
-	(C.cmd_to_list
-	   (Printf.sprintf "cd %s; git log -n 1 %s %s %s -- \"*.[ch]\""
-	      !C.linux pretty fixed_args commit),
-	 label))
-      commits in
+	let infos =
+	  C.cmd_to_list
+	    (Printf.sprintf "cd %s; git log -n 1 %s %s %s -- \"*.[ch]\""
+	       !C.linux pretty fixed_args commit) in
+	if infos = []
+	then (* failure *) prev
+	else (infos,label)::prev)
+      [] commits in
+  let infos = List.rev infos in
   let res = parse_commit_data infos !C.linux in
   Printf.eprintf "Patches: %d\n" (List.length res);
   res
