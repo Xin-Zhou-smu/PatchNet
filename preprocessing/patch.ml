@@ -47,8 +47,13 @@ let rec parse_commit_data commits linux =
     | _ ->
 	List.iter (fun x -> Printf.eprintf "%s\n" x) l;
 	failwith "incomplete data" in
-  Parmap.parfold ~ncores:(!C.cores) ~chunksize:C.chunksize
-    process (Parmap.L commits) [] (@)
+  if !C.cores = 1
+  then
+    List.rev
+      (List.fold_left (fun acc x -> process x acc) [] commits)
+  else
+    Parmap.parfold ~ncores:(!C.cores) ~chunksize:C.chunksize
+      process (Parmap.L commits) [] (@)
 
 let get_commits commit_file =
   let commits = C.cmd_to_list ("cat "^commit_file) in
