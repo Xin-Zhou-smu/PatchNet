@@ -72,7 +72,9 @@ let get_commits commit_file =
 	let commit = String.trim commit in
 	let label = String.trim label in
 	(if not (List.mem label ["true";"false"])
-	then failwith ("bad label: "^label));
+	then
+	  failwith
+	    (Printf.sprintf "bad label: %s, expected true or false" label));
 	(C.cmd_to_list
 	   (Printf.sprintf "cd %s; git log -n 1 %s %s %s -- \"*.[ch]\""
 	      !C.linux pretty fixed_args commit),
