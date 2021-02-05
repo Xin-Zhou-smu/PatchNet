@@ -18,6 +18,8 @@ class PatchNet(nn.Module):
         Ks = args.filter_sizes  # kernel sizes
 
         # CNN-2D for commit message
+        # set seed for nn.Enbedding
+        torch.manual_seed(5)
         self.embed_msg = nn.Embedding(V_msg, Dim)
         self.convs_msg = nn.ModuleList([nn.Conv2d(Ci, Co, (K, Dim)) for K in Ks])
 
@@ -26,6 +28,8 @@ class PatchNet(nn.Module):
 
         # CNN-3D for commit code
         code_line = args.code_line  # the number of LOC in each hunk of commit code
+        # set seed for nn.Enbedding
+        torch.manual_seed(5)
         self.embed_code = nn.Embedding(V_code, Dim)
         self.convs_code_line = nn.ModuleList([nn.Conv2d(Ci, Co, (K, Dim)) for K in Ks])
         self.convs_code_hunk = nn.ModuleList([nn.Conv3d(Ci, Co, (K, code_line, Co * len(Ks))) for K in Ks])
