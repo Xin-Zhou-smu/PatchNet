@@ -5,6 +5,8 @@
  * https://github.com/hvdthong/PatchNetTool
  *)
 
+val line_limit : int option ref
+
 val get_commits : string ->
     (string * string * string * string * string * string * string * string *
        string option * string list) list

@@ -153,6 +153,8 @@ let options =
     "  list of labelled commits";
     "--commit_list", Arg.Set_string commit_list,
     "  list of labelled commits (alternative argument)";
+    "--max-lines", Arg.Int (fun n -> Patch.line_limit := Some n),
+    "  limit on # lines, incl context";
     "--git", Arg.Set_string Lcommon.linux,
     "  location of git tree";
     "--nolog", Arg.Clear words, "  exclude commit log message";

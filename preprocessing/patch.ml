@@ -13,6 +13,8 @@ module C = Lcommon
 let marker = ">=============="
 let marker2 = ">==============++++++++++++++"
 
+let line_limit = ref None
+
 let rec parse_commit_data commits linux =
   let process (l,label) acc =
     match l with
@@ -43,7 +45,24 @@ let rec parse_commit_data commits linux =
 	  | _ -> (acc,[]) in
 	let (pieces,rest) = iloop [] rest in
 	let files = List.map third pieces in
-	(entry files) :: acc
+	(match !line_limit with
+	  None -> (entry files) :: acc
+	| Some limit ->
+	    (* check that the number of all lines are within the boundary *)
+	    (* for stables *)
+	    let lines =
+	      C.cmd_to_list
+		(Printf.sprintf "cd %s; git show --pretty=format:\"\" %s"
+		   linux commit) in
+	    (* count all code lines, including context code *)
+	    let changed_lines =
+	      List.filter
+		(function x ->
+		  not (x = "") && List.mem (String.get x 0) [' ';'-';'+'])
+		lines in
+	    if (List.length changed_lines) > limit
+	    then acc
+	    else (entry files) :: acc)
     | _ ->
 	List.iter (fun x -> Printf.eprintf "%s\n" x) l;
 	failwith "incomplete data" in

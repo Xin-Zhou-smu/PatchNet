@@ -39,9 +39,11 @@ A typical command line is
 
    ./getinfo --commit-list <commit list> --git <git path> -o <prefix>
 
-It is possible to specify --nolog to ignore the commit logs, --balance to
-produce a balanced dataset by discarding some elements, and -j to indicate
-the number of cores to use.  The default number of cores is 4.
+It is possible to specify --nolog to ignore the commit logs, --max-lines to
+indicate the most number of lines allowed in a commit to be considered
+includeing both modified and context lines, --balance to produce a balanced
+dataset by discarding some elements, and -j to indicate the number of cores
+to use.  The default number of cores is 4.
 
 This produces the files <prefix>.tmp (intermediate file), <prefix>.out
 (representation of commits) and <prefix>.dict (dictionary for the commits).
