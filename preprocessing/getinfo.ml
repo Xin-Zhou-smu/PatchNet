@@ -208,8 +208,8 @@ let _ =
 	~init:(fun id -> CD.me := id; Parmap.redirect ~path:prefix ~id)
 	~finalize:(fun () -> flush_all ())*)
       Lcommon.parfold_compat ~ncores:(!C.cores) ~chunksize:C.chunksize
-	(*~init:(fun id -> CD.me := id; Parmap.redirect ~path:prefix ~id)
-	~finalize:(fun () -> flush_all ())*)
+	~init:(fun id -> CD.me := id(*; Parmap.redirect ~path:prefix ~id*))
+	~finalize:(fun () -> flush_all ())
 	(fun ((commit,_,_,_,_,files) as x) rest ->
 	  Printf.eprintf "starting %s\n" commit; flush stderr;
 	  try
@@ -228,6 +228,7 @@ let _ =
      infos;
   Printf.eprintf "after word processing %d\n" (List.length infos);
   (*let prefix = "/dev/shm/getinfo2" in*)
+  flush stderr; flush stdout;
   let infos =
     (*Parmap.parmap ~ncores:(!C.cores) ~chunksize:C.chunksize
       ~init:(fun id -> Parmap.redirect ~path:prefix ~id)*)

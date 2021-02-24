@@ -130,6 +130,7 @@ let run_get_words infos =
   let cwd = Sys.getcwd() in
   Sys.chdir !C.linux;
   let prefix = "/dev/shm/getinfo3" in
+  flush stderr; flush stdout;
   let logs =
     (*Parmap.parmap ~ncores:(!C.cores) ~chunksize:C.chunksize
       ~init:(fun id -> Parmap.redirect ~path:prefix ~id)*)
@@ -140,7 +141,9 @@ let run_get_words infos =
           C.cmd_to_list
             (Printf.sprintf "git log -n 1 --pretty=format:\"%%B\" %s"
                commit) in
-        (commit,get_words committer message,message))
+        let res = (commit,get_words committer message,message) in
+	flush stderr; flush stdout;
+	res)
       commits in
   Printf.eprintf "done with step 3: %d\n" (List.length logs);
   Sys.chdir cwd;

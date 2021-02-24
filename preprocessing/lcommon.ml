@@ -71,10 +71,18 @@ let hashadd tbl k v =
   if not (List.mem v !cell) then cell := v :: !cell
 
 (* thanks to Francois Berenger *)
+let rec takedrop n l =
+  let rec loop n acc = function
+      [] -> (List.rev acc,[])
+    | l1 when n = 0 -> (List.rev acc,l1)
+    | x::xs -> loop (n-1) (x::acc) xs in
+  loop n [] l
+
 let parfold_compat
-    (*?(init = fun (_rank: int) -> ()) ?(finalize = fun () -> ())*)
+    ?(init = fun (_rank: int) -> ()) ?(finalize = fun () -> ())
     ?(ncores: int option) ?(chunksize: int option) (f: 'a -> 'b -> 'b)
     (l: 'a list) (init_acc: 'b) (acc_fun: 'b -> 'b -> 'b): 'b =
+  flush stdout; flush stderr;
   let nprocs = match ncores with
   | None -> 1 (* if the user doesn't know the number of cores to use,
                  we don't know better *)
@@ -82,7 +90,23 @@ let parfold_compat
   let csize = match chunksize with
   | None -> 1
   | Some x -> x in
-Printf.eprintf "parfold using %d cores\n" nprocs;
-  Parany.Parmap.parfold (*~init ~finalize*) ~preserve:false ~core_pin:false
-    ~csize nprocs
-      (fun x -> f x init_acc) acc_fun init_acc l
+  if nprocs <= 1 then
+    List.fold_left (fun acc x -> f x acc) init_acc l
+  else
+    let input = ref l in
+    let demux () = match !input with
+    | [] -> raise Parany.End_of_input
+    | _ ->
+        let this_chunk, rest = takedrop csize !input in
+        input := rest;
+        this_chunk in
+    let work xs =
+      List.fold_left (fun acc x -> f x acc) init_acc xs in
+    let output = ref init_acc in
+    let mux x =
+      output := acc_fun !output x in
+      (* parallel work *)
+    Parany.run ~init ~finalize
+        (* leave csize=1 bellow *)
+      ~preserve:false ~core_pin:false ~csize:1 nprocs ~demux ~work ~mux;
+    !output
