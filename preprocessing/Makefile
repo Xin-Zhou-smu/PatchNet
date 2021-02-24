@@ -1,13 +1,14 @@
-PARMAP=$(shell ocamlfind query parmap)
+PARANY=$(shell ocamlfind query parany)
+CPU=$(shell ocamlfind query cpu)
 
 TARGET=getinfo
 LEXER_SOURCES = lexer_c.mll
 SRC=lcommon.ml patch.ml $(LEXER_SOURCES:.mll=.ml) \
 decomment.ml collect_diff.ml words.ml get_function_calls.ml getinfo.ml
 
-INCLUDEDIRS= $(PARMAP)
+INCLUDEDIRS= $(PARANY)
 
-SYSLIBS=str.cma unix.cma bigarray.cma $(PARMAP)/parmap.cma
+SYSLIBS=str.cma unix.cma bigarray.cma $(CPU)/cpu.cma $(PARANY)/parany.cma
 OPTSYSLIBS=$(SYSLIBS:.cma=.cmxa)
 
 OBJS=    $(SRC:.ml=.cmo)

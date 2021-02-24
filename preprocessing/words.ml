@@ -131,8 +131,9 @@ let run_get_words infos =
   Sys.chdir !C.linux;
   let prefix = "/dev/shm/getinfo3" in
   let logs =
-    Parmap.parmap ~ncores:(!C.cores) ~chunksize:C.chunksize
-      ~init:(fun id -> Parmap.redirect ~path:prefix ~id)
+    (*Parmap.parmap ~ncores:(!C.cores) ~chunksize:C.chunksize
+      ~init:(fun id -> Parmap.redirect ~path:prefix ~id)*)
+    Parany.Parmap.parmap (!C.cores)
       (fun (commit,committer) ->
         Printf.eprintf "step3: working on %s\n" commit;
         let message =
@@ -140,7 +141,7 @@ let run_get_words infos =
             (Printf.sprintf "git log -n 1 --pretty=format:\"%%B\" %s"
                commit) in
         (commit,get_words committer message,message))
-      (Parmap.L commits) in
+      commits in
   Printf.eprintf "done with step 3: %d\n" (List.length logs);
   Sys.chdir cwd;
   (* checking the words with python *)

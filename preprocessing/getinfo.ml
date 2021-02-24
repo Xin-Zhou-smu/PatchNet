@@ -189,7 +189,7 @@ let _ =
   CD.before := C.before_linux;
   CD.after := C.after_linux;
   CD.quiet := true;
-  let prefix = "/dev/shm/getinfo1" in
+  (*let prefix = "/dev/shm/getinfo1" in*)
   let infos =
     if !C.cores = 1
     then
@@ -204,9 +204,12 @@ let _ =
 	     with CD.Failed -> rest)
 	   [] infos)
     else
-      Parmap.parfold ~ncores:(!C.cores) ~chunksize:C.chunksize
+      (*Parmap.parfold ~ncores:(!C.cores) ~chunksize:C.chunksize
 	~init:(fun id -> CD.me := id; Parmap.redirect ~path:prefix ~id)
-	~finalize:(fun () -> flush_all ())
+	~finalize:(fun () -> flush_all ())*)
+      Lcommon.parfold_compat ~ncores:(!C.cores) ~chunksize:C.chunksize
+	(*~init:(fun id -> CD.me := id; Parmap.redirect ~path:prefix ~id)
+	~finalize:(fun () -> flush_all ())*)
 	(fun ((commit,_,_,_,_,files) as x) rest ->
 	  Printf.eprintf "starting %s\n" commit; flush stderr;
 	  try
@@ -214,7 +217,7 @@ let _ =
 	      ([],_) -> rest
 	    | cur -> (x,cur) :: rest
 	  with CD.Failed -> rest)
-	(Parmap.L infos) [] (@) in
+	infos [] (@) in
   Printf.eprintf "after parfold\n"; flush stderr;
   Lexer_c.init();
   List.iter (* cannot be parmapped!!! *)
@@ -224,10 +227,11 @@ let _ =
 	words)
      infos;
   Printf.eprintf "after word processing %d\n" (List.length infos);
-  let prefix = "/dev/shm/getinfo2" in
+  (*let prefix = "/dev/shm/getinfo2" in*)
   let infos =
-    Parmap.parmap ~ncores:(!C.cores) ~chunksize:C.chunksize
-      ~init:(fun id -> Parmap.redirect ~path:prefix ~id)
+    (*Parmap.parmap ~ncores:(!C.cores) ~chunksize:C.chunksize
+      ~init:(fun id -> Parmap.redirect ~path:prefix ~id)*)
+    Parany.Parmap.parmap (!C.cores)
       (fun (((commit,_,_,_,_,_) as x),(results,_)) ->
 	Lexer_c.current_commit := commit;
 	let res =
@@ -257,7 +261,7 @@ let _ =
 		  results))
 	     results) in
 	flush stdout; flush stderr; res)
-      (Parmap.L infos) in
+      infos in
   let infos =
     if !balance
     then do_balance infos

@@ -69,3 +69,20 @@ let hashadd tbl k v =
       Hashtbl.add tbl k cell;
       cell in
   if not (List.mem v !cell) then cell := v :: !cell
+
+(* thanks to Francois Berenger *)
+let parfold_compat
+    (*?(init = fun (_rank: int) -> ()) ?(finalize = fun () -> ())*)
+    ?(ncores: int option) ?(chunksize: int option) (f: 'a -> 'b -> 'b)
+    (l: 'a list) (init_acc: 'b) (acc_fun: 'b -> 'b -> 'b): 'b =
+  let nprocs = match ncores with
+  | None -> 1 (* if the user doesn't know the number of cores to use,
+                 we don't know better *)
+  | Some x -> x in
+  let csize = match chunksize with
+  | None -> 1
+  | Some x -> x in
+Printf.eprintf "parfold using %d cores\n" nprocs;
+  Parany.Parmap.parfold (*~init ~finalize*) ~preserve:false ~core_pin:false
+    ~csize nprocs
+      (fun x -> f x init_acc) acc_fun init_acc l

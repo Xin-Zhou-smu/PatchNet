@@ -71,8 +71,10 @@ let rec parse_commit_data commits linux =
     List.rev
       (List.fold_left (fun acc x -> process x acc) [] commits)
   else
-    Parmap.parfold ~ncores:(!C.cores) ~chunksize:C.chunksize
-      process (Parmap.L commits) [] (@)
+    (*Parmap.parfold ~ncores:(!C.cores) ~chunksize:C.chunksize
+      process (Parmap.L commits) [] (@)*)
+    Lcommon.parfold_compat ~ncores:(!C.cores) ~chunksize:C.chunksize
+      process commits [] (@)
 
 let get_commits commit_file =
   let commits = C.cmd_to_list ("cat "^commit_file) in
