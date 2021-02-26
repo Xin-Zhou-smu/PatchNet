@@ -253,20 +253,20 @@ let runone commit tag info file =
   let cocci_opts =
     (* --disable-macros is to avoid expanding macros because of line # pbs *)
     "--very-quiet --include-headers-for-types --no-loops --timeout 360" in
-  let t1 = Unix.gettimeofday () in
+  (*let t1 = Unix.gettimeofday () in*)
   let cmd =
     Printf.sprintf
       "spatch parse_changes.cocci %s -D data=%s -D tag=%s -D commit=%s -D thefile=%s %s"
       cocci_opts diffinfo tag commit file file in
   let results = C.cmd_to_list cmd in
-  Printf.eprintf "cmd %s\n" cmd;
-  Printf.eprintf "results: %d\n" (List.length results);
-  let t2 = Unix.gettimeofday () in
-  Printf.eprintf "spatch time: %0.2f\n" (t2 -. t1); flush stderr;
+  (*Printf.eprintf "cmd %s\n" cmd;
+  Printf.eprintf "results: %d\n" (List.length results);*)
+  (*let t2 = Unix.gettimeofday () in*)
+  (*Printf.eprintf "spatch time: %0.2f\n" (t2 -. t1); flush stderr;*)
   if List.mem "Failed" results
   then
     begin
-      Printf.eprintf "Failed\n"; flush stderr;
+      (*Printf.eprintf "Failed\n";*)
       (if !quiet
       then Printf.printf "Failed\n"
       else
@@ -288,7 +288,7 @@ let runone commit tag info file =
 		  if sln > eln
 		  then
 		    begin
-		      Printf.eprintf "Failed: sln %d > eln %d\n" sln eln;
+		      (*Printf.eprintf "Failed: sln %d > eln %d\n" sln eln;*)
 		      raise Failed
 		    end
 		  else
@@ -299,7 +299,7 @@ let runone commit tag info file =
 	       eln,C.safe_int_of_string 6 ecol,Decomment.destring str)
 	  | _ -> failwith ("bad string: "^l))
 	results in
-      Printf.eprintf "Succeeded %d\n" (List.length results); flush stderr;
+      (*Printf.eprintf "Succeeded %d\n" (List.length results); flush stderr;*)
       res
     end
 
@@ -428,12 +428,12 @@ let getone (commit,files) =
 		    Minus(hnk,line,scol,ecol) -> ((hnk,line,scol,ecol)::mi,pi)
 		  | Plus(hnk,line,scol,ecol) -> (mi,(hnk,line,scol,ecol)::pi))
 	      ([],[]) info in
-	  Printf.eprintf "starting minus results\n"; flush stderr;
+	  (*Printf.eprintf "starting minus results\n"; flush stderr;*)
 	  let minus_results =
 	    if minus_info = []
 	    then []
 	    else runone commit "-" minus_info btmp in
-	  Printf.eprintf "starting plus results\n"; flush stderr;
+	  (*Printf.eprintf "starting plus results\n"; flush stderr;*)
 	  let plus_results =
 	    if plus_info = []
 	    then []
