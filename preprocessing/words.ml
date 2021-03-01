@@ -134,7 +134,7 @@ let run_get_words infos =
     Parmap.parmap ~ncores:(!C.cores) ~chunksize:C.chunksize
       ~init:(fun id -> Parmap.redirect ~path:prefix ~id)
       (fun (commit,committer) ->
-        Printf.eprintf "step3: working on %s\n" commit;
+        (*Printf.eprintf "step3: working on %s\n" commit;*)
         let message =
           C.cmd_to_list
             (Printf.sprintf "git log -n 1 --pretty=format:\"%%B\" %s"

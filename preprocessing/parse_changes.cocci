@@ -9,6 +9,7 @@ let relevant_lines = Hashtbl.create 101
 let variables = Hashtbl.create 101
 let local_functions = ref []
 let inits = Hashtbl.create 101
+let debug = false
 
 let escape x = String.concat "\\n" (Str.split (Str.regexp "\n") x)
 
@@ -40,7 +41,9 @@ let iota starter ender =
 
 let safe_int_of_string key s =
   try int_of_string s
-  with x -> (Printf.eprintf "%d: ios failure on %s\n" key s; raise x)
+  with x ->
+    ((if debug then Printf.eprintf "%d: ios failure on %s\n" key s);
+     raise x)
 
 let lines = Common.cmd_to_list (Printf.sprintf "cat %s" data)
 let _ =
@@ -198,16 +201,19 @@ let fullyrelevant (_,p,all) =
 
 let dfullyrelevant (n,p,all) =
   let res = fullyrelevant (n,p,all) in
-  Printf.eprintf "fullyrelevant %d -> %b\n" n res;
+  (if debug then Printf.eprintf "fullyrelevant %d -> %b\n" n res);
   res
 
 let dsubrelevant (n,p,all) =
   let p = List.hd p in
-  flush stdout;
-  Printf.eprintf
-    "%d: file: %s line %d.%d-%d.%d\n" n
-    p.file p.line p.col p.line_end p.col_end;
-  flush stderr;
+  (if debug
+  then
+    begin
+      flush stdout;
+      Printf.eprintf "%d: file: %s line %d.%d-%d.%d\n" n
+	p.file p.line p.col p.line_end p.col_end;
+      flush stderr
+    end);
   let lines = iota p.line p.line_end in
   let elements =
     List.concat
@@ -220,7 +226,12 @@ let dsubrelevant (n,p,all) =
 	 lines) in
   let starter = (p.line,p.col) in
   let ender = (p.line_end,p.col_end) in
-  Printf.eprintf "options: %d\n" (List.length elements); flush stderr;
+  (if debug
+  then
+    begin
+      Printf.eprintf "options: %d\n" (List.length elements);
+      flush stderr
+    end);
   List.exists
     (function (l,(s,e,found)) ->
       Printf.eprintf "%d: s %d e %d found %d\n" l s e (List.length !found);
@@ -234,20 +245,28 @@ let dsubrelevant (n,p,all) =
 	else if fst ender = l
 	then already_covered s (snd ender) found
 	else ok) in
-      List.iter (fun (s,e) -> Printf.eprintf "  %d %d\n" s e) !found;
-      Printf.eprintf "  trying %d.%d - %d.%d: %b %b %b\n" l s l e all (not ok)
-	(not used);
-      Printf.eprintf "  max %d.%d %d.%d < min %d.%d %d.%d: %b\n"
-	(fst starter) (snd starter) l s (fst ender) (snd ender) l e
-	((max starter (l,s)) < (min (l,e) ender));
+      (if debug
+      then
+	begin
+	  List.iter (fun (s,e) -> Printf.eprintf "  %d %d\n" s e) !found;
+	  Printf.eprintf "  trying %d.%d - %d.%d: %b %b %b\n" l s l e all (not ok)
+	    (not used);
+	  Printf.eprintf "  max %d.%d %d.%d < min %d.%d %d.%d: %b\n"
+	    (fst starter) (snd starter) l s (fst ender) (snd ender) l e
+	    ((max starter (l,s)) < (min (l,e) ender))
+	end);
       (all || (not ok && not used)) && (max starter (l,s)) < (min (l,e) ender))
     elements
 
 let drelevant p =
   let p = List.hd p in
-  flush stdout;
-  Printf.eprintf "line %d: %d-%d\n" p.line p.col p.col_end;
-  flush stderr;
+  (if debug
+  then
+    begin
+      flush stdout;
+      Printf.eprintf "line %d: %d-%d\n" p.line p.col p.col_end;
+      flush stderr
+    end);
   try
     (if not (p.line = p.line_end)
     then
@@ -258,9 +277,13 @@ let drelevant p =
     let info = !(Hashtbl.find relevant_lines p.line) in
     let starter = p.col in
     let ender = p.col_end in
-    Printf.eprintf "options: %s\n"
-      (String.concat " "
-	 (List.map (fun (s,e,_) -> Printf.sprintf "%d-%d" s e) info));
+    (if debug
+    then
+      begin
+	Printf.eprintf "options: %s\n"
+	  (String.concat " "
+	     (List.map (fun (s,e,_) -> Printf.sprintf "%d-%d" s e) info))
+      end);
     let res =
       List.exists
 	(function (s,e,found) ->
@@ -268,7 +291,8 @@ let drelevant p =
 	  let used = already_covered starter ender found in
 	  not ok && not used && s <= starter && ender <= e)
 	info in
-    Printf.eprintf "ok? %b\n" res;
+    (if debug
+    then Printf.eprintf "ok? %b\n" res);
     res
   with Not_found -> false
 
@@ -309,9 +333,11 @@ let validate line scol ecol =
   with Not_found -> ()
 
 let validate_positions2 n p1 p2 =
-  Printf.eprintf "validating %d: %d.%d - %d.%d\n" n
-    (List.hd p1).line (List.hd p1).col
-    (List.hd p2).line_end (List.hd p2).col_end;
+  (if debug
+  then
+    Printf.eprintf "validating %d: %d.%d - %d.%d\n" n
+      (List.hd p1).line (List.hd p1).col
+      (List.hd p2).line_end (List.hd p2).col_end);
   let p = List.hd p1 in
   let line = p.line in
   let col = p.col in

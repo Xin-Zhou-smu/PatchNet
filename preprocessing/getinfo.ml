@@ -196,7 +196,7 @@ let _ =
       List.rev
 	(List.fold_left
 	   (fun rest ((commit,_,_,_,_,files) as x) ->
-	     Printf.eprintf "starting %s\n" commit; flush stderr;
+	     (*Printf.eprintf "starting %s\n" commit; flush stderr;*)
 	     try
 	       match CD.getone (commit,files) with
 		 ([],_) -> rest
@@ -208,14 +208,13 @@ let _ =
 	~init:(fun id -> CD.me := id; Parmap.redirect ~path:prefix ~id)
 	~finalize:(fun () -> flush_all ())
 	(fun ((commit,_,_,_,_,files) as x) rest ->
-	  Printf.eprintf "starting %s\n" commit; flush stderr;
+	  (*Printf.eprintf "starting %s\n" commit; flush stderr;*)
 	  try
 	    match CD.getone (commit,files) with
 	      ([],_) -> rest
 	    | cur -> (x,cur) :: rest
 	  with CD.Failed -> rest)
 	(Parmap.L infos) [] (@) in
-  Printf.eprintf "after parfold\n"; flush stderr;
   Lexer_c.init();
   List.iter (* cannot be parmapped!!! *)
     (function ((commit,_,_,_,_,_),(_,words)) ->
@@ -262,7 +261,6 @@ let _ =
     if !balance
     then do_balance infos
     else infos in
-  Printf.eprintf "after parmap\n"; flush stderr;
   let logtbl = 
     if !words
     then
