@@ -108,5 +108,5 @@ let parfold_compat
       (* parallel work *)
     Parany.run ~init ~finalize
         (* leave csize=1 bellow *)
-      ~preserve:false ~core_pin:false ~csize:1 nprocs ~demux ~work ~mux;
+      ~preserve:false ~core_pin:true ~csize:1 nprocs ~demux ~work ~mux;
     !output

@@ -134,7 +134,7 @@ let run_get_words infos =
   let logs =
     (*Parmap.parmap ~ncores:(!C.cores) ~chunksize:C.chunksize
       ~init:(fun id -> Parmap.redirect ~path:prefix ~id)*)
-    Parany.Parmap.parmap (!C.cores)
+    Parany.Parmap.parmap ~core_pin:true (!C.cores)
       (fun (commit,committer) ->
         (*Printf.eprintf "step3: working on %s\n" commit;*)
         let message =

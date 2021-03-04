@@ -231,7 +231,7 @@ let _ =
   let infos =
     (*Parmap.parmap ~ncores:(!C.cores) ~chunksize:C.chunksize
       ~init:(fun id -> Parmap.redirect ~path:prefix ~id)*)
-    Parany.Parmap.parmap (!C.cores)
+    Parany.Parmap.parmap ~core_pin:true (!C.cores)
       (fun (((commit,_,_,_,_,_) as x),(results,_)) ->
 	Lexer_c.current_commit := commit;
 	let res =
