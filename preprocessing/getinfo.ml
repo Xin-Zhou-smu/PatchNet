@@ -159,7 +159,7 @@ let options =
     "  location of git tree";
     "--nolog", Arg.Clear words, "  exclude commit log message";
     "--balance", Arg.Set balance,
-    "  same number of commits with true and false labls";
+    "  same number of commits with true and false labels";
     "--keep-ifdefs", Arg.Clear Decomment.drop_ifdefs,
     "  keep ifdefs, for backward compatability";
     "--tmpdir", Arg.Set_string C.tmpdir,
