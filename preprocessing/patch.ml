@@ -15,6 +15,11 @@ let marker2 = ">==============++++++++++++++"
 
 let line_limit = ref None
 
+let safe_append l1 l2 =
+  List.fold_left
+    (fun prev cur -> cur :: prev)
+    l2 l1
+
 let rec parse_commit_data commits linux =
   let process (l,label) acc =
     match l with
@@ -74,7 +79,7 @@ let rec parse_commit_data commits linux =
     (*Parmap.parfold ~ncores:(!C.cores) ~chunksize:C.chunksize
       process (Parmap.L commits) [] (@)*)
     Lcommon.parfold_compat ~ncores:(!C.cores) ~chunksize:C.chunksize
-      process commits [] (@)
+      process commits [] safe_append
 
 let get_commits commit_file =
   let commits = C.cmd_to_list ("cat "^commit_file) in

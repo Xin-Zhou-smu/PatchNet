@@ -170,6 +170,11 @@ let options =
 let anonymous s = failwith "no anonymous arguments"
 let usage = ""
 
+let safe_append l1 l2 =
+  List.fold_left
+    (fun prev cur -> cur :: prev)
+    l2 l1
+
 let _ =
   Arg.parse (Arg.align options) anonymous usage;
   (if !output_prefix = "" then failwith "-o <output file prefix> required");
@@ -218,7 +223,7 @@ let _ =
 	      ([],_) -> rest
 	    | cur -> (x,cur) :: rest
 	  with CD.Failed -> rest)
-	infos [] (@) in
+	infos [] safe_append in
   Lexer_c.init();
   List.iter (* cannot be parmapped!!! *)
     (function ((commit,_,_,_,_,_),(_,words)) ->
