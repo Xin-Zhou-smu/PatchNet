@@ -136,7 +136,8 @@ let run_get_words infos =
       ~init:(fun id -> Parmap.redirect ~path:prefix ~id)*)
     Parany.Parmap.parmap ~core_pin:true (!C.cores)
       (fun (commit,committer) ->
-        (*Printf.eprintf "step3: working on %s\n" commit;*)
+        (if !C.debug then
+	  begin Printf.eprintf "step3: working on %s\n" commit; flush stderr end);
         let message =
           C.cmd_to_list
             (Printf.sprintf "git log -n 1 --pretty=format:\"%%B\" %s"

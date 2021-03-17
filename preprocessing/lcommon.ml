@@ -11,6 +11,8 @@ let before_linux = "/dev/shm/linux-before"
 let after_linux = "/dev/shm/linux-after"
 let stable = ref "/dev/shm/linux-stable"
 
+let debug = ref false
+
 let process_output_to_list2 = fun command ->
   let chan = Unix.open_process_in command in
   let res = ref ([] : string list) in

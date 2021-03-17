@@ -259,8 +259,13 @@ let runone commit tag info file =
       "spatch parse_changes.cocci %s -D data=%s -D tag=%s -D commit=%s -D thefile=%s %s"
       cocci_opts diffinfo tag commit file file in
   let results = C.cmd_to_list cmd in
-  (*Printf.eprintf "cmd %s\n" cmd;
-  Printf.eprintf "results: %d\n" (List.length results);*)
+  (if !C.debug
+  then
+    begin
+      Printf.eprintf "cmd %s\n" cmd;
+      Printf.eprintf "results: %d\n" (List.length results);
+      flush stderr
+    end);
   (*let t2 = Unix.gettimeofday () in*)
   (*Printf.eprintf "spatch time: %0.2f\n" (t2 -. t1); flush stderr;*)
   if List.mem "Failed" results

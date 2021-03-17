@@ -164,6 +164,7 @@ let options =
     "  keep ifdefs, for backward compatability";
     "--tmpdir", Arg.Set_string C.tmpdir,
     "  temporary directory";
+    "--debug", Arg.Set C.debug, "  some debug info";
     "-j", Arg.Set_int C.cores, "  number of cores";
   ]
 let anonymous s = failwith "no anonymous arguments"
@@ -196,7 +197,7 @@ let _ =
       List.rev
 	(List.fold_left
 	   (fun rest ((commit,_,_,_,_,files) as x) ->
-	     (*Printf.eprintf "starting %s\n" commit; flush stderr;*)
+	     (if !C.debug then (Printf.eprintf "starting %s\n" commit; flush stderr));
 	     try
 	       match CD.getone (commit,files) with
 		 ([],_) -> rest
