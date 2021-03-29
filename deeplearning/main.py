@@ -6,7 +6,8 @@ from preprocessing import reformat_commit_code
 from padding import padding_commit, padding_testing_commit
 import sys
 from sklearn.model_selection import train_test_split
-
+from collections import Counter
+from utils import  build_pos_neg_balance
 
 def read_args_PNExtend():
     parser = argparse.ArgumentParser()
@@ -81,7 +82,13 @@ if __name__ == '__main__':
         train_pad_msg, train_pad_added_code, train_pad_removed_code, train_labels = padding_commit(commits=train_data, dictionary=dictionary, params=params)          
         
         data = (train_pad_msg, train_pad_added_code, train_pad_removed_code, train_labels, dict_msg, dict_code)  
-        train_model(data=data, valid_data = valid_data, params=params)
+        print("count of label in training set before balancing:", Counter(train_labels))
+        
+        balanced_data = build_pos_neg_balance(data)
+        print("\n # of trainining data after balancing:", len(balanced_data[0]))
+        print("count of label in balanced training set:", Counter(balanced_data[3]))
+        
+        train_model(data = balanced_data, valid_data = valid_data, params=params)
         print('--------------------------------------------------------------------------------')
         print('--------------------------Finish the training process---------------------------')
         print('--------------------------------------------------------------------------------')
