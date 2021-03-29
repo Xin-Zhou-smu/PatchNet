@@ -63,3 +63,29 @@ def mini_batches(X_msg, X_added_code, X_removed_code, Y, shuffled=False, mini_ba
         mini_batches.append(mini_batch)
     return mini_batches
 
+
+def build_pos_neg_balance(data):
+
+    train_pad_msg, train_pad_added_code, train_pad_removed_code, train_labels, dict_msg, dict_code = data
+    train_pad_msg_balanced, train_pad_added_code_balanced, train_pad_removed_code_balanced, train_labels_balanced = list(), list(), list(), list()
+
+    Y_pos = [i for i in range(len(train_labels)) if train_labels[i] == 1]
+    Y_neg = [i for i in range(len(train_labels)) if train_labels[i] == 0]
+
+    for pos_index in Y_pos:
+        # positive sample
+        train_pad_msg_balanced.append(train_pad_msg[pos_index])
+        train_pad_added_code_balanced.append(train_pad_added_code[pos_index])
+        train_pad_removed_code_balanced.append(train_pad_removed_code[pos_index])
+        train_labels_balanced.append(train_labels[pos_index])
+
+        #negative sample
+        neg_index = random.sample(Y_neg, 1)[0]
+        train_pad_msg_balanced.append(train_pad_msg[neg_index])
+        train_pad_added_code_balanced.append(train_pad_added_code[neg_index])
+        train_pad_removed_code_balanced.append(train_pad_removed_code[neg_index])
+        train_labels_balanced.append(train_labels[neg_index])
+
+    balanced_data = ( np.array(train_pad_msg_balanced),  np.array(train_pad_added_code_balanced),  np.array(train_pad_removed_code_balanced),  np.array(train_labels_balanced), dict_msg, dict_code)
+
+    return balanced_data
