@@ -71,6 +71,9 @@ def build_pos_neg_balance(data):
 
     Y_pos = [i for i in range(len(train_labels)) if train_labels[i] == 1]
     Y_neg = [i for i in range(len(train_labels)) if train_labels[i] == 0]
+    
+    if len(Y_pos) ==0:
+        print("\n  The input data dosen't contain any positive samples !! Please check your training/ dev datasets \n ")
 
     for pos_index in Y_pos:
         # positive sample
