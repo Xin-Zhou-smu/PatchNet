@@ -1,4 +1,4 @@
-from utils import mini_batches, save
+from utils import mini_batches, save, build_pos_neg_balance
 import os
 import datetime
 import torch
@@ -9,6 +9,9 @@ import pickle as pickle
 from preprocessing import reformat_commit_code
 from padding import padding_commit
 from evaluation import evaluation_model,valid_model
+import faulthandler
+faulthandler.enable()
+
 
 def train_model(data, valid_data, params):
     
@@ -28,7 +31,8 @@ def train_model(data, valid_data, params):
          valid_pad_msg, valid_pad_added_code, valid_pad_removed_code, valid_labels = padding_commit(commits=valid_data, dictionary=valid_dictionary, params=params)           
         
          valid_data = (valid_pad_msg, valid_pad_added_code, valid_pad_removed_code, valid_labels, val_dict_msg, val_dict_code)
-         
+         valid_data =  build_pos_neg_balance(valid_data)
+         print("\n # of valid data after balancing:", len(valid_data[0]))
     
     
     pad_msg, pad_added_code, pad_removed_code, labels, dict_msg, dict_code = data
